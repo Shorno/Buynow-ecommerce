@@ -1,8 +1,11 @@
+import ProductGrid from "@/components/home/product-grid";
+import FeaturedBannerSlider from "@/components/home/featured-banner-slider";
 
 export default function Home() {
     return (
-        <div>
-            home page
-        </div>
+        <main className="container mx-auto">
+            <FeaturedBannerSlider/>
+            <ProductGrid/>
+        </main>
     );
 }

@@ -54,7 +54,7 @@ export default function Navbar() {
                                     alt="logo"
                                     width={150}
                                     height={150}
-                                    className="hidden md:block md:w-96 lg:w-auto"
+                                    className="hidden md:block md:w-96 lg:w-48"
                                 />
                                 <Image
                                     src={LOGO || "/placeholder.svg"}
