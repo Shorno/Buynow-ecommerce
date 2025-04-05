@@ -1,30 +1,43 @@
 "use client"
-import {MapPin, Search, ShoppingCartIcon, UserIcon} from "lucide-react"
+import {ArrowDown, MapPin, Search, ShoppingCartIcon, UserIcon} from "lucide-react"
 import {Input} from "@/components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import LOGO from "@/public/logo.png"
 import Image from "next/image"
 import {useState} from "react";
+import HoverSignin from "@/components/hover-signin";
+import Link from "next/link";
 
 export default function Navbar() {
-    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [showSigninMenu, setShowSigninMenu] = useState(false)
 
     const handleSearchFocus = () => {
-        setIsSearchFocused(true);
+        setIsFocused(true);
     };
 
     const handleSearchBlur = () => {
-        setIsSearchFocused(false);
+        setIsFocused(false);
     };
+
+    const handleMouseEnter = () => {
+        setShowSigninMenu(true)
+        setIsFocused(true)
+    }
+
+    const handleMouseLeave = () => {
+        setShowSigninMenu(false)
+        setIsFocused(false)
+    }
 
 
     return (
         <>
 
-            {isSearchFocused && (
+            {isFocused && (
                 <div
                     className="fixed inset-0 bg-black/30 z-40"
-                    onClick={() => setIsSearchFocused(false)}
+                    onClick={() => setIsFocused(false)}
                 />
             )}
 
@@ -84,7 +97,8 @@ export default function Navbar() {
                                     placeholder="Search products"
                                     className="bg-white text-sm font-semibold rounded-sm rounded-l-none rounded-r-none h-9 focus-visible:border-none focus-visible:ring-transparent"
                                 />
-                                <div className="h-9 w-20 bg-orange-400 flex justify-center items-center rounded-r-sm">
+                                <div
+                                    className="h-9 w-20 bg-orange-400 flex justify-center items-center rounded-r-sm">
                                     <Search className="text-white"/>
                                 </div>
                             </div>
@@ -92,13 +106,26 @@ export default function Navbar() {
 
                         {/* Cart and sign in */}
                         <div className="flex gap-4 sm:gap-8 min-w-max">
-                            <div className="text-white">
-                               <div className={"flex gap-1"}>
-                                   <p className="">Sign in</p>
-                                   <UserIcon/>
-                               </div>
-                                <p className="text-sm hidden sm:block font-semibold">Accounts & Lists</p>
+                            <Link href={"/signin"} className={"text-white flex gap-1 sm:hidden"}>
+                                Sign In <UserIcon/>
+                            </Link>
+                            {/*for large screen*/}
+                            <div className={"relative"}
+                                 onMouseEnter={handleMouseEnter}
+                                 onMouseLeave={handleMouseLeave}
+                            >
+                                <div className={"text-white text-start cursor-pointer hidden sm:block"}
+
+                                >
+                                    <p className={"text-sm"}>Hello, sign in</p>
+                                    <p className="text-sm hidden sm:flex gap-1 items-center font-semibold">Accounts &
+                                        Lists <ArrowDown size={18}/></p>
+                                </div>
+                                {
+                                    showSigninMenu && <div className={"absolute right-0 top-full"}><HoverSignin/></div>
+                                }
                             </div>
+
                             <div className="text-white flex justify-center items-center gap-2">
                                 <ShoppingCartIcon className="md:size-8"/>
                                 <p className="md:text-lg font-semibold">Cart</p>
